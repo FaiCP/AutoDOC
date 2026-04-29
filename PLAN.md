@@ -77,7 +77,7 @@ Entregables:
 
 ## Fase 3 - Comandos de la CLI
 
-Estado: pendiente.
+Estado: completada.
 
 Comandos objetivo:
 
@@ -107,7 +107,7 @@ Entregables:
 
 ## Fase 4 - Detector de proyectos
 
-Estado: pendiente.
+Estado: completada.
 
 Detectar:
 
@@ -139,7 +139,7 @@ Archivos a analizar:
 
 ## Fase 5 - Generador de README
 
-Estado: pendiente.
+Estado: completada.
 
 Secciones objetivo:
 
@@ -172,7 +172,7 @@ Reglas:
 
 ## Fase 6 - Autoactualizacion de README
 
-Estado: pendiente.
+Estado: completada. Workflow activo en AutoDOC — Actions actualiza README en cada push a main.
 
 Sin Pages. Solo `README.md`.
 

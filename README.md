@@ -1,11 +1,18 @@
 <!-- AUTOREADME:START -->
 # autoreadme
+
+## Overview
+
 CLI that detects your project and generates a professional README.md
 
 ## Tech Stack
 
 - Node.js
 - TypeScript
+
+## Requirements
+
+- Node.js 18+
 
 ## Installation
 
@@ -21,11 +28,39 @@ npm run dev
 
 ## Commands
 
-| Command | Description |
+| Command | Script |
 | --- | --- |
 | `npm run dev` | `tsc --watch` |
 | `npm run test` | `node --test tests/**/*.test.js` |
 | `npm run build` | `tsc` |
+
+## Testing
+
+```bash
+npm run test
+```
+
+## Build
+
+```bash
+npm run build
+```
+
+## Project Structure
+
+```
+├─ scripts/
+├─ src/
+├─ tests/
+```
+
+## Contributing
+
+1. Fork the repository
+2. Create a branch: `git checkout -b feature/your-feature`
+3. Commit your changes
+4. Push to the branch: `git push origin feature/your-feature`
+5. Open a pull request against `main`
 <!-- AUTOREADME:END -->
 
 # autoreadme

@@ -1,4 +1,4 @@
-﻿# Auto Docs Template
+# Auto Docs Template
 
 [![Docs](https://img.shields.io/badge/docs-automated-0f766e)](#)
 [![GitHub Actions](https://img.shields.io/badge/github%20actions-ready-2563eb)](#)
@@ -17,7 +17,7 @@ This repository uses automated documentation. The root README is the professiona
 | Stacks | generic |
 | Package managers | none |
 | Documentation generators | none |
-| Git remote | not configured |
+| Git remote | https://github.com/FaiCP/AutoDOC |
 
 ## Quick Start
 

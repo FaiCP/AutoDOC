@@ -1,13 +1,11 @@
-﻿{
-    "root":  "C:\\Users\\luis\\Desktop\\Otros\\DocumentacionGit",
-    "gitRemote":  null,
-    "stacks":  [
-                   "generic"
-               ],
-    "packageManagers":  [
-                            "none"
-                        ],
-    "docGenerators":  [
-
-                      ]
+{
+  "root": "/home/runner/work/AutoDOC/AutoDOC",
+  "gitRemote": "https://github.com/FaiCP/AutoDOC",
+  "stacks": [
+    "generic"
+  ],
+  "packageManagers": [
+    "none"
+  ],
+  "docGenerators": []
 }

@@ -1,3 +1,33 @@
+<!-- AUTOREADME:START -->
+# autoreadme
+CLI that detects your project and generates a professional README.md
+
+## Tech Stack
+
+- Node.js
+- TypeScript
+
+## Installation
+
+```bash
+npm install
+```
+
+## Usage
+
+```bash
+npm run dev
+```
+
+## Commands
+
+| Command | Description |
+| --- | --- |
+| `npm run dev` | `tsc --watch` |
+| `npm run test` | `node --test tests/**/*.test.js` |
+| `npm run build` | `tsc` |
+<!-- AUTOREADME:END -->
+
 # autoreadme
 
 CLI tool that detects your project stack and generates or updates a professional `README.md` automatically.

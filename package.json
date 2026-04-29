@@ -1,0 +1,26 @@
+{
+  "name": "autoreadme",
+  "version": "0.1.0",
+  "description": "CLI that detects your project and generates a professional README.md",
+  "type": "module",
+  "bin": {
+    "autoreadme": "./dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "node --test tests/**/*.test.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "keywords": ["readme", "documentation", "cli", "generator"],
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^12.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.4.0"
+  }
+}

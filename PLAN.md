@@ -33,7 +33,7 @@ contenido generado
 
 ## Fase 1 - Redefinir el producto
 
-Estado: pendiente.
+Estado: completada.
 
 Entregables:
 
@@ -44,7 +44,7 @@ Entregables:
 
 ## Fase 2 - Reestructurar como paquete npm
 
-Estado: pendiente.
+Estado: completada.
 
 Estructura objetivo:
 

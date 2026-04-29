@@ -1,34 +1,60 @@
 import type { ProjectMetadata } from '../types.js'
 
+export function sectionOverview(meta: ProjectMetadata): string {
+  if (!meta.description) return ''
+  return `## Overview\n\n${meta.description}`
+}
+
 export function sectionStack(meta: ProjectMetadata): string {
   if (meta.stacks.length === 0) return ''
   const items = meta.stacks.map(s => `- ${s}`).join('\n')
   return `## Tech Stack\n\n${items}`
 }
 
+export function sectionRequirements(meta: ProjectMetadata): string {
+  const lines: string[] = []
+
+  if (meta.engines) {
+    for (const [tool, range] of Object.entries(meta.engines)) {
+      lines.push(`- ${tool} \`${range}\``)
+    }
+  } else if (meta.stacks.includes('Node.js')) {
+    lines.push('- Node.js 18+')
+  }
+
+  if (meta.packageManager === 'pnpm') lines.push('- pnpm')
+  else if (meta.packageManager === 'yarn') lines.push('- yarn')
+  else if (meta.packageManager === 'bun') lines.push('- bun')
+
+  if (meta.hasDocker) lines.push('- Docker')
+
+  if (lines.length === 0) return ''
+  return `## Requirements\n\n${lines.join('\n')}`
+}
+
 export function sectionInstall(meta: ProjectMetadata): string {
   if (!meta.packageManager) return ''
-  const cmds: string[] = []
-  if (meta.packageManager === 'npm') cmds.push('npm install')
-  else if (meta.packageManager === 'pnpm') cmds.push('pnpm install')
-  else if (meta.packageManager === 'yarn') cmds.push('yarn')
-  else if (meta.packageManager === 'bun') cmds.push('bun install')
-  else if (meta.packageManager === 'poetry') cmds.push('poetry install')
-  else if (meta.packageManager === 'uv') cmds.push('uv sync')
-  if (cmds.length === 0) return ''
-  return `## Installation\n\n\`\`\`bash\n${cmds.join('\n')}\n\`\`\``
+  let cmd = ''
+  if (meta.packageManager === 'npm') cmd = 'npm install'
+  else if (meta.packageManager === 'pnpm') cmd = 'pnpm install'
+  else if (meta.packageManager === 'yarn') cmd = 'yarn'
+  else if (meta.packageManager === 'bun') cmd = 'bun install'
+  else if (meta.packageManager === 'poetry') cmd = 'poetry install'
+  else if (meta.packageManager === 'uv') cmd = 'uv sync'
+  if (!cmd) return ''
+  return `## Installation\n\n\`\`\`bash\n${cmd}\n\`\`\``
 }
 
 export function sectionUsage(meta: ProjectMetadata): string {
-  const lines: string[] = []
   const pm = meta.packageManager ?? 'npm'
   const run = pm === 'npm' ? 'npm run' : pm === 'yarn' ? 'yarn' : pm
-
-  if (meta.scripts['dev']) lines.push(`${run} dev`)
-  else if (meta.scripts['start']) lines.push(`${run} start`)
-
-  if (lines.length === 0) return ''
-  return `## Usage\n\n\`\`\`bash\n${lines.join('\n')}\n\`\`\``
+  const line = meta.scripts['dev']
+    ? `${run} dev`
+    : meta.scripts['start']
+      ? `${run} start`
+      : null
+  if (!line) return ''
+  return `## Usage\n\n\`\`\`bash\n${line}\n\`\`\``
 }
 
 export function sectionCommands(meta: ProjectMetadata): string {
@@ -39,7 +65,27 @@ export function sectionCommands(meta: ProjectMetadata): string {
   const rows = Object.entries(meta.scripts)
     .map(([name, cmd]) => `| \`${run} ${name}\` | \`${cmd}\` |`)
     .join('\n')
-  return `## Commands\n\n| Command | Description |\n| --- | --- |\n${rows}`
+  return `## Commands\n\n| Command | Script |\n| --- | --- |\n${rows}`
+}
+
+export function sectionTesting(meta: ProjectMetadata): string {
+  if (!meta.scripts['test']) return ''
+  const pm = meta.packageManager ?? 'npm'
+  const run = pm === 'npm' ? 'npm run' : pm === 'yarn' ? 'yarn' : pm
+  return `## Testing\n\n\`\`\`bash\n${run} test\n\`\`\``
+}
+
+export function sectionBuild(meta: ProjectMetadata): string {
+  if (!meta.scripts['build']) return ''
+  const pm = meta.packageManager ?? 'npm'
+  const run = pm === 'npm' ? 'npm run' : pm === 'yarn' ? 'yarn' : pm
+  return `## Build\n\n\`\`\`bash\n${run} build\n\`\`\``
+}
+
+export function sectionProjectStructure(meta: ProjectMetadata): string {
+  if (meta.topLevelDirs.length === 0) return ''
+  const lines = meta.topLevelDirs.map(d => `├─ ${d}/`)
+  return `## Project Structure\n\n\`\`\`\n${lines.join('\n')}\n\`\`\``
 }
 
 export function sectionEnvVars(meta: ProjectMetadata): string {
@@ -56,9 +102,20 @@ export function sectionDocker(meta: ProjectMetadata): string {
   return `## Docker\n\n${lines.join('\n')}`
 }
 
+export function sectionContributing(meta: ProjectMetadata): string {
+  const branch = meta.gitBranch ?? 'main'
+  return [
+    '## Contributing',
+    '',
+    '1. Fork the repository',
+    '2. Create a branch: `git checkout -b feature/your-feature`',
+    '3. Commit your changes',
+    `4. Push to the branch: \`git push origin feature/your-feature\``,
+    `5. Open a pull request against \`${branch}\``,
+  ].join('\n')
+}
+
 export function sectionLicense(meta: ProjectMetadata): string {
   if (!meta.license) return ''
-  const remote = meta.gitRemote?.replace(/\.git$/, '')
-  const link = remote ? `[${meta.license}](LICENSE)` : meta.license
-  return `## License\n\n${link}`
+  return `## License\n\n[${meta.license}](LICENSE)`
 }

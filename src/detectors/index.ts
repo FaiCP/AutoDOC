@@ -79,7 +79,21 @@ function detectNodeSubStacks(deps: Set<string>): string[] {
   return stacks
 }
 
-const WANTED_SCRIPTS = ['install', 'dev', 'start', 'test', 'build', 'lint', 'preview', 'typecheck']
+const IGNORED_DIRS = new Set([
+  'node_modules', '.git', 'dist', 'build', '.next', '.nuxt',
+  'coverage', '.cache', '__pycache__', 'target', '.idea', '.vscode',
+])
+
+function detectTopLevelDirs(root: string): string[] {
+  try {
+    return readdirSync(root, { withFileTypes: true })
+      .filter(e => e.isDirectory() && !IGNORED_DIRS.has(e.name) && !e.name.startsWith('.'))
+      .map(e => e.name)
+      .sort()
+  } catch { return [] }
+}
+
+const WANTED_SCRIPTS = ['dev', 'start', 'test', 'build', 'lint', 'preview', 'typecheck', 'format']
 
 export function detect(root: string): ProjectMetadata {
   const stacks: string[] = []
@@ -87,12 +101,14 @@ export function detect(root: string): ProjectMetadata {
   let description = ''
   let version: string | undefined
   let packageManager: string | undefined
+  let engines: Record<string, string> | undefined
   const scripts: Record<string, string> = {}
 
   const pkg = readJson(join(root, 'package.json')) as {
     name?: string
     description?: string
     version?: string
+    engines?: Record<string, string>
     dependencies?: Record<string, string>
     devDependencies?: Record<string, string>
     scripts?: Record<string, string>
@@ -103,6 +119,7 @@ export function detect(root: string): ProjectMetadata {
     name = pkg.name ?? ''
     description = pkg.description ?? ''
     version = pkg.version
+    if (pkg.engines && Object.keys(pkg.engines).length > 0) engines = pkg.engines
 
     const allDeps = new Set([
       ...Object.keys(pkg.dependencies ?? {}),
@@ -143,9 +160,11 @@ export function detect(root: string): ProjectMetadata {
     gitBranch: gitBranch(root),
     stacks,
     packageManager,
+    engines,
     scripts,
     envVars: detectEnvVars(root),
     hasDocker: has(root, 'Dockerfile'),
     hasDockerCompose: has(root, 'docker-compose.yml') || has(root, 'docker-compose.yaml'),
+    topLevelDirs: detectTopLevelDirs(root),
   }
 }

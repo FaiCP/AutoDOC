@@ -110,7 +110,7 @@ Completado:
 
 ### Fase 4 - Calidad y mantenimiento
 
-Estado: pendiente.
+Estado: completada parcialmente.
 
 Entregables:
 
@@ -121,9 +121,18 @@ Entregables:
 
 Pendiente:
 
-- Agregar pruebas automatizadas para `detect-project.ps1`.
-- Agregar ejemplos por stack: Node, Python, .NET, Java, Go y Rust.
-- Documentar errores comunes de PowerShell, MkDocs, markdownlint y lychee.
+- Confirmar `mkdocs build --strict` cuando `mkdocs` este instalado.
+- Confirmar `markdownlint "**/*.md"` cuando `markdownlint` este instalado.
+
+Completado:
+
+- `tests/run-tests.ps1` agregado con pruebas para deteccion Node, Python, .NET, Java, Go y Rust.
+- Prueba de `-DryRun` agregada para confirmar que no escribe archivos.
+- `docs/stacks.md` agregado con ejemplos por stack.
+- `docs/troubleshooting.md` agregado con errores comunes de PowerShell, MkDocs, markdownlint, lychee, Pages y Git.
+- `docs/release-checklist.md` agregado como checklist de publicacion.
+- `Makefile` incluye target `test`.
+- Pruebas automatizadas ejecutadas correctamente con `tests/run-tests.ps1`.
 
 ## Flujo principal
 

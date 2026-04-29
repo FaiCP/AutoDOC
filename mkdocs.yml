@@ -15,7 +15,10 @@ nav:
   - Configuration: configuration.md
   - Architecture: architecture.md
   - API: api.md
+  - Stack Examples: stacks.md
   - Deployment: deployment.md
+  - Troubleshooting: troubleshooting.md
+  - Release Checklist: release-checklist.md
   - Contributing: contributing.md
 
 markdown_extensions:

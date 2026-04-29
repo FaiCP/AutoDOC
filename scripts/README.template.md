@@ -55,6 +55,12 @@ Check whether the repository is ready for GitHub Actions and Pages:
 ./scripts/check-github-readiness.ps1
 ```
 
+Run the built-in script tests:
+
+```powershell
+./tests/run-tests.ps1
+```
+
 ## Documentation
 
 Documentation is generated automatically on every commit and published from GitHub Actions when changes reach `main`.
@@ -69,6 +75,7 @@ Documentation is generated automatically on every commit and published from GitH
 | `./scripts/generate-docs.ps1 -ProjectPath "C:\path\to\repo" -Force` | Overwrite existing generated/template files |
 | `./scripts/generate-docs.ps1 -CheckPrerequisites` | Verify local docs tools |
 | `./scripts/check-github-readiness.ps1` | Check Git, GitHub Actions and Pages readiness |
+| `./tests/run-tests.ps1` | Run built-in script tests |
 | `mkdocs serve` | Preview docs locally |
 | `mkdocs build --strict` | Build docs for production |
 

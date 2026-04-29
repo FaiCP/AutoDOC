@@ -159,12 +159,16 @@ function Install-TemplateFiles {
         "scripts/detect-project.ps1",
         "scripts/generate-docs.ps1",
         "scripts/README.template.md",
+        "tests/run-tests.ps1",
         "docs/api.md",
         "docs/architecture.md",
         "docs/configuration.md",
         "docs/contributing.md",
         "docs/deployment.md",
-        "docs/getting-started.md"
+        "docs/getting-started.md",
+        "docs/stacks.md",
+        "docs/troubleshooting.md",
+        "docs/release-checklist.md"
     )
 
     foreach ($file in $files) {

@@ -57,3 +57,13 @@ The generator writes:
 - `mkdocs.yml`, `Makefile`, `.markdownlint.json`, `lychee.toml` and `.github/workflows/docs.yml` when missing.
 
 `docs/project-detection.json` includes the project root, detected stacks, package managers, documentation generators and Git remote when available.
+
+## Tests
+
+Run built-in tests without installing extra PowerShell modules:
+
+```powershell
+./tests/run-tests.ps1
+```
+
+The test runner creates temporary sample projects for Node, Python, .NET, Java, Go and Rust detection, then removes them when it finishes.

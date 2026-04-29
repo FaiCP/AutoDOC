@@ -12,7 +12,7 @@ CLI that detects your project and generates a professional README.md
 
 ## Requirements
 
-- Node.js 18+
+- node `>=18`
 
 ## Installation
 
@@ -31,7 +31,7 @@ npm run dev
 | Command | Script |
 | --- | --- |
 | `npm run dev` | `tsc --watch` |
-| `npm run test` | `node --test tests/**/*.test.js` |
+| `npm run test` | `node --test tests/detect.test.js tests/generate.test.js tests/init.test.js` |
 | `npm run build` | `tsc` |
 
 ## Testing

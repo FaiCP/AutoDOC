@@ -4,4 +4,5 @@ site/
 node_modules/
 phase2-test-target/
 phase2-test-target-2/
+phase2-test-*/
 nul

@@ -50,7 +50,7 @@ Completado:
 
 ### Fase 2 - Aplicacion sobre repositorios reales
 
-Estado: completada parcialmente.
+Estado: completada.
 
 Entregables:
 
@@ -58,10 +58,6 @@ Entregables:
 - Deteccion de stack mas completa.
 - README generado con datos reales del proyecto.
 - Documentacion tecnica inicial basada en archivos detectados.
-
-Pendiente:
-
-- Probar la aplicacion sobre un repositorio real fuera del template.
 
 Completado:
 
@@ -77,36 +73,35 @@ Completado:
 - La carpeta `phase2-test-target` conserva una prueba inicial y `phase2-test-target-2` conserva la prueba corregida.
 - README generado incluye metadata real detectada: stacks, gestores de paquetes, generadores de documentacion y remoto Git.
 - `docs/index.md` incluye la misma metadata detectada.
+- Probado sobre repositorio real `FaiCP/ProlaceReact` (React + TypeScript + Vite + Tailwind).
+- `detect-project.ps1` mejorado: parsea `package.json` para detectar react, vue, angular, next, nuxt, svelte, typescript, tailwindcss, vite.
+- Falso positivo de typedoc eliminado: solo se agrega si existe en dependencias.
+- Deteccion correcta verificada: `node, react, typescript, tailwindcss, vite` con `npm` y remoto GitHub real.
 
 ### Fase 3 - Automatizacion en GitHub
 
 Estado: en progreso.
 
+Objetivo ajustado: solo auto-actualizar README en cada push a main. Sin Pages, sin MkDocs, sin markdownlint, sin lychee.
+
 Entregables:
 
-- Workflow probado en GitHub Actions.
-- Auto-commit de documentacion generada en `main`.
-- Publicacion en GitHub Pages.
-- Lint de Markdown y validacion de links.
+- Workflow simplificado: push → generate-docs.ps1 → auto-commit README si cambio.
+- Repositorio remoto creado y conectado.
+- Workflow verificado en GitHub Actions.
 
 Pendiente:
 
-- Inicializar Git local si aplica.
-- Crear repositorio remoto o conectar uno existente.
-- Configurar Pages en GitHub.
-- Probar el workflow en GitHub Actions.
+- Crear repositorio remoto en GitHub y conectar origin.
+- Hacer primer push a main.
+- Verificar que Actions ejecuta y auto-commitea README actualizado.
 
 Completado:
 
-- Workflow actualizado con environment `github-pages` y salida de URL de despliegue.
-- Workflow ejecuta `scripts/check-github-readiness.ps1` antes de generar documentacion.
-- Script `scripts/check-github-readiness.ps1` agregado para verificar Git, remoto, rama, archivos de CI, MkDocs y markdownlint.
-- `.gitignore` agregado para excluir `site/`, cache, `node_modules/` y carpetas de prueba.
-- Documentacion de despliegue actualizada con pasos de primer push, Pages y permisos.
-- Git local inicializado en la ruta actual del proyecto.
-- Rama local configurada como `main`.
-- Primer commit local creado: `50367c2 chore: add automated documentation template`.
-- Readiness local verificado: faltan remoto `origin`, `mkdocs` y `markdownlint`.
+- Workflow simplificado a un solo job: checkout → generate README → auto-commit README.md.
+- Eliminados: MkDocs, markdownlint, lychee, Pages, check-github-readiness.
+- `.gitignore` excluye `site/`, cache, `node_modules/` y carpetas de prueba.
+- Git local inicializado. Rama `main`. Commit base `50367c2` existe.
 
 ### Fase 4 - Calidad y mantenimiento
 

@@ -38,7 +38,31 @@ $detected = [ordered]@{
 
 if (Test-RepoFile "package.json") {
     $detected.stacks += "node"
-    $detected.docGenerators += "typedoc"
+
+    $pkgJson = Get-Content (Join-Path $root "package.json") -Raw -ErrorAction SilentlyContinue | ConvertFrom-Json -ErrorAction SilentlyContinue
+    if ($pkgJson) {
+        $allDeps = @{}
+        if ($pkgJson.dependencies) {
+            $pkgJson.dependencies.PSObject.Properties | ForEach-Object { $allDeps[$_.Name] = $true }
+        }
+        if ($pkgJson.devDependencies) {
+            $pkgJson.devDependencies.PSObject.Properties | ForEach-Object { $allDeps[$_.Name] = $true }
+        }
+
+        if ($allDeps.ContainsKey("react"))           { $detected.stacks += "react" }
+        if ($allDeps.ContainsKey("vue"))             { $detected.stacks += "vue" }
+        if ($allDeps.ContainsKey("@angular/core"))   { $detected.stacks += "angular" }
+        if ($allDeps.ContainsKey("next"))            { $detected.stacks += "next" }
+        if ($allDeps.ContainsKey("nuxt"))            { $detected.stacks += "nuxt" }
+        if ($allDeps.ContainsKey("svelte"))          { $detected.stacks += "svelte" }
+        if ($allDeps.ContainsKey("typescript"))      { $detected.stacks += "typescript" }
+        if ($allDeps.ContainsKey("tailwindcss"))     { $detected.stacks += "tailwindcss" }
+        if ($allDeps.ContainsKey("vite"))            { $detected.stacks += "vite" }
+
+        if ($allDeps.ContainsKey("typedoc")) {
+            $detected.docGenerators += "typedoc"
+        }
+    }
 }
 
 if ((Test-RepoFile "pyproject.toml") -or (Test-RepoFile "requirements.txt") -or (Test-RepoFile "setup.py")) {

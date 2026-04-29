@@ -60,7 +60,8 @@ function Test-Detection {
         [hashtable]$Files,
         [string]$ExpectedStack,
         [string]$ExpectedPackageManager,
-        [string]$ExpectedDocGenerator
+        [string]$ExpectedDocGenerator = "",
+        [string[]]$ExpectedStacks = @()
     )
 
     $project = New-TestProject -Name $Name -Files $Files
@@ -68,7 +69,12 @@ function Test-Detection {
 
     Assert-Contains -Label "$Name stack" -Values $result.stacks -Expected $ExpectedStack
     Assert-Contains -Label "$Name package manager" -Values $result.packageManagers -Expected $ExpectedPackageManager
-    Assert-Contains -Label "$Name doc generator" -Values $result.docGenerators -Expected $ExpectedDocGenerator
+    if (-not [string]::IsNullOrEmpty($ExpectedDocGenerator)) {
+        Assert-Contains -Label "$Name doc generator" -Values $result.docGenerators -Expected $ExpectedDocGenerator
+    }
+    foreach ($s in $ExpectedStacks) {
+        Assert-Contains -Label "$Name extra stack" -Values $result.stacks -Expected $s
+    }
 }
 
 New-Item -ItemType Directory -Force -Path $tempRoot | Out-Null
@@ -77,7 +83,17 @@ try {
     Test-Detection -Name "node-npm" -Files @{
         "package.json" = "{}"
         "package-lock.json" = "{}"
+    } -ExpectedStack "node" -ExpectedPackageManager "npm"
+
+    Test-Detection -Name "node-typedoc" -Files @{
+        "package.json" = '{"devDependencies":{"typedoc":"^0.25.0"}}'
+        "package-lock.json" = "{}"
     } -ExpectedStack "node" -ExpectedPackageManager "npm" -ExpectedDocGenerator "typedoc"
+
+    Test-Detection -Name "react-typescript-vite" -Files @{
+        "package.json" = '{"dependencies":{"react":"^19.0.0"},"devDependencies":{"typescript":"^5.0.0","vite":"^5.0.0","tailwindcss":"^4.0.0"}}'
+        "package-lock.json" = "{}"
+    } -ExpectedStack "node" -ExpectedPackageManager "npm" -ExpectedStacks @("react","typescript","vite","tailwindcss")
 
     Test-Detection -Name "python-poetry" -Files @{
         "pyproject.toml" = "[project]`nname = 'sample'"

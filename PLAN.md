@@ -105,6 +105,7 @@ Completado:
 - Documentacion de despliegue actualizada con pasos de primer push, Pages y permisos.
 - Git local inicializado en la ruta actual del proyecto.
 - Rama local configurada como `main`.
+- Primer commit local creado: `50367c2 chore: add automated documentation template`.
 - Readiness local verificado: faltan remoto `origin`, `mkdocs` y `markdownlint`.
 
 ### Fase 4 - Calidad y mantenimiento

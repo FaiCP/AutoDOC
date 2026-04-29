@@ -1,5 +1,5 @@
 {
-  "name": "autoreadme",
+  "name": "@fairezlc/autoreadme",
   "version": "0.1.0",
   "description": "CLI that detects your project and generates a professional README.md",
   "type": "module",

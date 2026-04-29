@@ -19,7 +19,7 @@ jobs:
         with:
           node-version: "20"
       - name: Generate README
-        run: npx autoreadme generate
+        run: npx @fairezlc/autoreadme generate
       - name: Commit README
         uses: stefanzweifel/git-auto-commit-action@v5
         with:

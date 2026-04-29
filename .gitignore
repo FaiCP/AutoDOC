@@ -1,8 +1,7 @@
-site/
-.cache/
-.pytest_cache/
 node_modules/
+dist/
+*.js.map
+.env
+phase2-test-*/
 phase2-test-target/
 phase2-test-target-2/
-phase2-test-*/
-nul

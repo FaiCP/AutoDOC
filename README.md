@@ -1,85 +1,29 @@
-# Auto Docs Template
+# autoreadme
 
-[![Docs](https://img.shields.io/badge/docs-automated-0f766e)](#)
-[![GitHub Actions](https://img.shields.io/badge/github%20actions-ready-2563eb)](#)
-[![License](https://img.shields.io/badge/license-MIT-111827)](#)
+CLI tool that detects your project stack and generates or updates a professional `README.md` automatically.
 
-Automated documentation system for GitHub repositories.
-
-## Overview
-
-This repository uses automated documentation. The root README is the professional entry point, while the `docs/` directory contains the complete technical documentation.
-
-## Project Metadata
-
-| Field | Value |
-| --- | --- |
-| Stacks | generic |
-| Package managers | none |
-| Documentation generators | none |
-| Git remote | https://github.com/FaiCP/AutoDOC |
-
-## Quick Start
-
-```powershell
-./scripts/generate-docs.ps1
+```bash
+npx autoreadme generate
 ```
 
-Generate documentation for another repository:
+## Status
 
-```powershell
-./scripts/generate-docs.ps1 -ProjectPath "C:\path\to\repo" -ProjectName "My Project" -Description "Project description"
+Work in progress. See [PLAN.md](PLAN.md) for roadmap.
+
+## Goal
+
+- Detect stack, package manager, scripts, license, git remote automatically
+- Generate or update `README.md` with real project data
+- Preserve manually written content using markers
+- Run on any OS via npm
+- Optional GitHub Actions workflow for auto-update on push
+
+## Usage (planned)
+
+```bash
+npx autoreadme detect        # print detected project metadata
+npx autoreadme generate      # create or update README.md
+npx autoreadme generate --dry-run
+npx autoreadme generate --force
+npx autoreadme init --github-action
 ```
-
-Preview changes before writing files:
-
-```powershell
-./scripts/generate-docs.ps1 -ProjectPath "C:\path\to\repo" -DryRun
-```
-
-Overwrite existing generated/template files:
-
-```powershell
-./scripts/generate-docs.ps1 -ProjectPath "C:\path\to\repo" -Force
-```
-
-Check local documentation prerequisites:
-
-```powershell
-./scripts/generate-docs.ps1 -CheckPrerequisites
-```
-
-Check whether the repository is ready for GitHub Actions and Pages:
-
-```powershell
-./scripts/check-github-readiness.ps1
-```
-
-Run the built-in script tests:
-
-```powershell
-./tests/run-tests.ps1
-```
-
-## Documentation
-
-Documentation is generated automatically on every commit and published from GitHub Actions when changes reach `main`.
-
-## Commands
-
-| Command | Purpose |
-| --- | --- |
-| `./scripts/generate-docs.ps1` | Regenerate documentation files |
-| `./scripts/generate-docs.ps1 -ProjectPath "C:\path\to\repo"` | Generate docs in another repository |
-| `./scripts/generate-docs.ps1 -ProjectPath "C:\path\to\repo" -DryRun` | Preview files that would be created or updated |
-| `./scripts/generate-docs.ps1 -ProjectPath "C:\path\to\repo" -Force` | Overwrite existing generated/template files |
-| `./scripts/generate-docs.ps1 -CheckPrerequisites` | Verify local docs tools |
-| `./scripts/check-github-readiness.ps1` | Check Git, GitHub Actions and Pages readiness |
-| `./tests/run-tests.ps1` | Run built-in script tests |
-| `mkdocs serve` | Preview docs locally |
-| `mkdocs build --strict` | Build docs for production |
-
-## License
-
-MIT
-

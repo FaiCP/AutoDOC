@@ -1,200 +1,257 @@
-# Plan de documentacion automatica en GitHub
+# Plan de AutoReadme
 
 ## Estado actual
 
 Proyecto activo: `C:\Users\luis\Desktop\Otros\DocumentacionGit`
 
-Estado al 2026-04-29:
+Decision de producto al 2026-04-29:
 
-- Base del template creada.
-- `README.md`, `docs/`, `scripts/`, `mkdocs.yml`, `.github/workflows/docs.yml`, `.markdownlint.json` y `lychee.toml` existen.
-- `docs/project-detection.json` fue regenerado con la ruta actual del proyecto.
-- El proyecto aun no esta inicializado como repositorio Git local.
-- La ejecucion directa de scripts PowerShell esta bloqueada por la politica local; se puede ejecutar con `powershell -NoProfile -ExecutionPolicy Bypass -File`.
+- El alcance cambia de documentacion completa con MkDocs/GitHub Pages a una herramienta enfocada solo en `README.md`.
+- El objetivo principal sera una CLI instalable con npm: `autoreadme`.
+- La herramienta debe poder ejecutarse con `npx autoreadme generate` o instalarse globalmente con `npm install -g autoreadme`.
+- Se descarta GitHub Pages como objetivo del producto.
+- Se mantiene como opcion un workflow de GitHub Actions solo para auto-actualizar `README.md`.
 
 ## Objetivo
 
-Crear un sistema reutilizable para que cualquier repositorio mantenga su documentacion actualizada automaticamente en cada commit, con un README profesional en la raiz y documentacion completa publicada en GitHub Pages.
+Crear una herramienta instalable por npm que detecte el proyecto actual y genere o actualice automaticamente un `README.md` profesional, preservando contenido manual cuando sea posible.
 
-## Fases de implementacion
+## Principios
 
-### Fase 1 - Base reutilizable del template
+- Solo generar y mantener `README.md`.
+- No depender de MkDocs, Pages, markdownlint o lychee para el flujo principal.
+- Funcionar en Windows, macOS y Linux.
+- Ser ejecutable desde `npx`, instalacion global npm o scripts de CI.
+- Proteger archivos existentes con `--dry-run`, `--force` y `--backup`.
+- Usar marcadores para actualizar solo el bloque generado:
 
-Estado: completada.
-
-Entregables:
-
-- Estructura minima del template.
-- README profesional generado desde plantilla.
-- Documentacion MkDocs inicial.
-- Script de deteccion de stack del proyecto.
-- Script central de generacion de documentacion.
-- Workflow de GitHub Actions para validacion, generacion y despliegue.
-
-Pendiente:
-
-- Sin pendientes tecnicos de la fase base.
-
-Completado:
-
-- `scripts/generate-docs.ps1` acepta `-ProjectPath` para generar documentacion en una ruta destino.
-- `scripts/detect-project.ps1` valida que la ruta exista antes de detectar el stack.
-- `scripts/detect-project.ps1` detecta remoto Git cuando existe.
-- `scripts/detect-project.ps1` incluye deteccion basica de proyectos .NET.
-- `scripts/generate-docs.ps1` actualiza `repo_url` en `mkdocs.yml` desde el remoto GitHub cuando existe.
-- Si no hay remoto Git, `repo_url` queda comentado para evitar `OWNER/REPOSITORY`.
-- `scripts/generate-docs.ps1` incluye `-CheckPrerequisites` para validar herramientas locales.
-- README y documentacion explican como usar `-ProjectPath`.
-- Generacion local verificada con la ruta actual del proyecto.
-- Chequeo local de prerequisitos verificado: faltan `mkdocs` y `markdownlint` en esta maquina.
-
-### Fase 2 - Aplicacion sobre repositorios reales
-
-Estado: completada.
-
-Entregables:
-
-- Comando para instalar/copiar el template en cualquier repositorio.
-- Deteccion de stack mas completa.
-- README generado con datos reales del proyecto.
-- Documentacion tecnica inicial basada en archivos detectados.
-
-Completado:
-
-- El template modifica el repositorio destino directamente cuando se usa `-ProjectPath`.
-- `-DryRun` muestra cambios sin escribir archivos.
-- Los archivos existentes en repositorios destino se omiten por defecto.
-- `-Force` permite sobrescribir archivos existentes de forma explicita.
-- El generador copia archivos base del template al repositorio destino cuando faltan.
-- `mkdocs.yml` se actualiza con `ProjectName`, `Description` y remoto Git cuando existe.
-- Aplicacion en carpeta destino limpia verificada con `phase2-test-target-2`.
-- Proteccion de archivos existentes verificada ejecutando el generador dos veces sin `-Force`.
-- Sobrescritura explicita verificada con `-Force`.
-- La carpeta `phase2-test-target` conserva una prueba inicial y `phase2-test-target-2` conserva la prueba corregida.
-- README generado incluye metadata real detectada: stacks, gestores de paquetes, generadores de documentacion y remoto Git.
-- `docs/index.md` incluye la misma metadata detectada.
-- Probado sobre repositorio real `FaiCP/ProlaceReact` (React + TypeScript + Vite + Tailwind).
-- `detect-project.ps1` mejorado: parsea `package.json` para detectar react, vue, angular, next, nuxt, svelte, typescript, tailwindcss, vite.
-- Falso positivo de typedoc eliminado: solo se agrega si existe en dependencias.
-- Deteccion correcta verificada: `node, react, typescript, tailwindcss, vite` con `npm` y remoto GitHub real.
-
-### Fase 3 - Automatizacion en GitHub
-
-Estado: en progreso.
-
-Objetivo ajustado: solo auto-actualizar README en cada push a main. Sin Pages, sin MkDocs, sin markdownlint, sin lychee.
-
-Entregables:
-
-- Workflow simplificado: push → generate-docs.ps1 → auto-commit README si cambio.
-- Repositorio remoto creado y conectado.
-- Workflow verificado en GitHub Actions.
-
-Pendiente:
-
-- Crear repositorio remoto en GitHub y conectar origin.
-- Hacer primer push a main.
-- Verificar que Actions ejecuta y auto-commitea README actualizado.
-
-Completado:
-
-- Workflow simplificado a un solo job: checkout → generate README → auto-commit README.md.
-- Eliminados: MkDocs, markdownlint, lychee, Pages, check-github-readiness.
-- `.gitignore` excluye `site/`, cache, `node_modules/` y carpetas de prueba.
-- Git local inicializado. Rama `main`. Commit base `50367c2` existe.
-
-### Fase 4 - Calidad y mantenimiento
-
-Estado: completada parcialmente.
-
-Entregables:
-
-- Documentacion de configuracion.
-- Guia de contribucion.
-- Pruebas basicas de scripts.
-- Checklist de release del template.
-
-Pendiente:
-
-- Confirmar `mkdocs build --strict` cuando `mkdocs` este instalado.
-- Confirmar `markdownlint "**/*.md"` cuando `markdownlint` este instalado.
-
-Completado:
-
-- `tests/run-tests.ps1` agregado con pruebas para deteccion Node, Python, .NET, Java, Go y Rust.
-- Prueba de `-DryRun` agregada para confirmar que no escribe archivos.
-- `docs/stacks.md` agregado con ejemplos por stack.
-- `docs/troubleshooting.md` agregado con errores comunes de PowerShell, MkDocs, markdownlint, lychee, Pages y Git.
-- `docs/release-checklist.md` agregado como checklist de publicacion.
-- `Makefile` incluye target `test`.
-- Pruebas automatizadas ejecutadas correctamente con `tests/run-tests.ps1`.
-
-## Flujo principal
-
-1. El desarrollador hace commit y push.
-2. GitHub Actions valida el README, Markdown y links.
-3. El sistema regenera la documentacion.
-4. Si hay cambios generados, crea un commit automatico.
-5. Si el cambio llega a `main`, publica la documentacion en GitHub Pages.
-
-## Estructura recomendada
-
-```text
-repo/
-├─ README.md
-├─ docs/
-│  ├─ index.md
-│  ├─ getting-started.md
-│  ├─ architecture.md
-│  └─ api.md
-├─ scripts/
-│  └─ generate-docs.ps1
-├─ mkdocs.yml
-├─ Makefile
-└─ .github/
-   └─ workflows/
-      └─ docs.yml
+```markdown
+<!-- AUTOREADME:START -->
+contenido generado
+<!-- AUTOREADME:END -->
 ```
 
-## README profesional
+## Fase 1 - Redefinir el producto
 
-El `README.md` de la raiz debe funcionar como la portada tecnica del proyecto:
+Estado: pendiente.
 
-- Nombre claro del proyecto y descripcion breve.
-- Badges de build, documentacion, version, licencia y ultimo commit.
-- Demo visual, screenshot o GIF cuando aplique.
-- Instalacion rapida.
-- Uso basico.
-- Features principales.
-- Arquitectura resumida.
-- Comandos disponibles.
-- Roadmap.
-- Guia de contribucion.
+Entregables:
+
+- Renombrar el enfoque de `Auto Docs` a `AutoReadme`.
+- Definir comando principal `autoreadme`.
+- Retirar del plan activo MkDocs, GitHub Pages, `docs/` como salida principal, `lychee` y validaciones de links.
+- Mantener lo ya aprendido del detector actual como base tecnica.
+
+## Fase 2 - Reestructurar como paquete npm
+
+Estado: pendiente.
+
+Estructura objetivo:
+
+```text
+autoreadme/
+├─ package.json
+├─ tsconfig.json
+├─ src/
+│  ├─ cli.ts
+│  ├─ commands/
+│  │  ├─ detect.ts
+│  │  ├─ generate.ts
+│  │  └─ init.ts
+│  ├─ detectors/
+│  ├─ generators/
+│  ├─ templates/
+│  └─ utils/
+├─ tests/
+├─ examples/
+└─ README.md
+```
+
+Entregables:
+
+- Crear `package.json` con `bin.autoreadme`.
+- Crear build TypeScript.
+- Crear entrada CLI.
+- Migrar la logica PowerShell actual a Node/TypeScript.
+- Dejar scripts PowerShell solo como compatibilidad temporal si hace falta.
+
+## Fase 3 - Comandos de la CLI
+
+Estado: pendiente.
+
+Comandos objetivo:
+
+```bash
+autoreadme detect
+autoreadme generate
+autoreadme generate --dry-run
+autoreadme generate --force
+autoreadme generate --backup
+autoreadme init --github-action
+```
+
+Uso esperado:
+
+```bash
+npx autoreadme generate
+npm install -g autoreadme
+autoreadme generate
+```
+
+Entregables:
+
+- `detect`: imprime metadata del proyecto.
+- `generate`: crea o actualiza `README.md`.
+- `init --github-action`: instala workflow opcional para auto-actualizar README.
+- Ayuda CLI clara con `--help`.
+
+## Fase 4 - Detector de proyectos
+
+Estado: pendiente.
+
+Detectar:
+
+- Nombre del proyecto.
+- Descripcion cuando exista.
+- Stack: Node, React, Vue, Angular, Next, Nuxt, Svelte, TypeScript, Tailwind, Vite, Python, .NET, Java, Go, Rust, PHP.
+- Package manager: npm, pnpm, yarn, bun, poetry, uv.
+- Scripts disponibles: install, dev, start, test, build, lint.
 - Licencia.
+- Remoto Git.
+- Rama actual.
+- Variables de entorno desde `.env.example`.
+- Dockerfile y docker-compose si existen.
 
-## Herramientas base
+Archivos a analizar:
 
-- `MkDocs Material` para documentacion general.
-- `GitHub Actions` para automatizacion.
-- `GitHub Pages` para publicacion.
-- `markdownlint-cli` para calidad Markdown.
-- `lychee` para links rotos.
-- Generadores por lenguaje cuando aplique: `typedoc`, `pdoc`, `sphinx`, `javadoc`, `godoc` o `cargo doc`.
+- `package.json`
+- `pyproject.toml`
+- `requirements.txt`
+- `.sln`, `.csproj`
+- `pom.xml`, `build.gradle`, `build.gradle.kts`
+- `go.mod`
+- `Cargo.toml`
+- `composer.json`
+- `.env.example`
+- `Dockerfile`
+- `LICENSE`
+- `.git/config`
 
-## Archivos creados
+## Fase 5 - Generador de README
 
-- `README.md`: portada profesional del repositorio.
-- `docs/`: documentacion tecnica publicada con MkDocs.
-- `scripts/generate-docs.ps1`: generador central.
-- `scripts/detect-project.ps1`: detector de stack del repositorio.
-- `scripts/README.template.md`: plantilla editable del README.
-- `.github/workflows/docs.yml`: automatizacion completa.
-- `.markdownlint.json`: reglas de Markdown.
-- `lychee.toml`: reglas de validacion de links.
+Estado: pendiente.
 
-## Politica de automatizacion
+Secciones objetivo:
 
-- En `pull_request`: validar sin escribir cambios.
-- En `push` a ramas normales: validar y generar.
-- En `push` a `main`: generar, auto-commitear cambios y publicar.
-- Evitar loops ignorando commits con mensaje `chore(docs): update generated documentation [skip ci]`.
+```markdown
+# Project Name
+
+## Overview
+## Tech Stack
+## Requirements
+## Installation
+## Usage
+## Commands
+## Project Structure
+## Testing
+## Build
+## Environment Variables
+## Contributing
+## License
+```
+
+Reglas:
+
+- Usar contenido detectado, no texto generico cuando haya datos reales.
+- Preservar contenido manual fuera del bloque `AUTOREADME`.
+- Si no existe README, crear uno completo.
+- Si existe README sin marcadores, insertar bloque generado sin destruir contenido manual salvo que se use `--force`.
+- `--dry-run` muestra cambios sin escribir.
+- `--backup` crea respaldo antes de modificar.
+- `--force` permite sobrescritura completa.
+
+## Fase 6 - Autoactualizacion de README
+
+Estado: pendiente.
+
+Sin Pages. Solo `README.md`.
+
+Workflow opcional generado por:
+
+```bash
+autoreadme init --github-action
+```
+
+Workflow objetivo:
+
+```yaml
+name: Auto README
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  readme:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Generate README
+        run: npx autoreadme generate
+      - name: Commit README
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "docs(readme): update generated README [skip ci]"
+          file_pattern: README.md
+```
+
+## Fase 7 - Publicacion npm
+
+Estado: pendiente.
+
+Entregables:
+
+- Preparar paquete con `files`, `bin`, versionado y licencia.
+- Agregar `npm run build`.
+- Agregar `npm test`.
+- Validar `npm pack`.
+- Publicar con:
+
+```bash
+npm login
+npm publish --access public
+```
+
+## Fase 8 - Calidad
+
+Estado: pendiente.
+
+Pruebas requeridas:
+
+- Deteccion por stack.
+- Generacion de README desde cero.
+- Actualizacion con marcadores.
+- Preservacion de contenido manual.
+- `--dry-run` sin escritura.
+- `--backup`.
+- `--force`.
+- Workflow opcional generado correctamente.
+
+## Historial del proyecto anterior
+
+El proyecto actual ya contiene trabajo reutilizable:
+
+- Detector PowerShell de stacks.
+- Generador inicial con `-ProjectPath`, `-DryRun` y `-Force`.
+- Pruebas basicas en `tests/run-tests.ps1`.
+- Experimentos con workflow de GitHub.
+
+Ese trabajo se considera base tecnica, pero el producto final sera `autoreadme` como CLI npm enfocada solo en `README.md`.

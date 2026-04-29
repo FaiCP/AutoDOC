@@ -1,0 +1,13 @@
+﻿{
+    "root":  "C:\\Users\\luis\\Desktop\\Otros\\DocumentacionGit",
+    "gitRemote":  null,
+    "stacks":  [
+                   "generic"
+               ],
+    "packageManagers":  [
+                            "none"
+                        ],
+    "docGenerators":  [
+
+                      ]
+}

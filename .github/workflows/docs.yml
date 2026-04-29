@@ -1,9 +1,9 @@
-name: Update README
+name: Auto README
 
 on:
   push:
     branches:
-      - "**"
+      - main
   workflow_dispatch:
 
 permissions:
@@ -19,18 +19,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
         with:
-          fetch-depth: 0
+          node-version: "20"
+
+      - name: Install
+        run: npm ci
+
+      - name: Build
+        run: npm run build
 
       - name: Generate README
-        shell: pwsh
-        run: ./scripts/generate-docs.ps1
+        run: node dist/cli.js generate
 
       - name: Commit updated README
-        if: github.ref == 'refs/heads/main'
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "chore(docs): update generated README [skip ci]"
-          file_pattern: "README.md docs/project-detection.json"
+          commit_message: "docs(readme): update generated README [skip ci]"
+          file_pattern: README.md

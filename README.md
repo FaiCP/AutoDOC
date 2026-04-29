@@ -1,5 +1,5 @@
 <!-- AUTOREADME:START -->
-# autoreadme
+# @fairezlc/autoreadme
 
 ## Overview
 

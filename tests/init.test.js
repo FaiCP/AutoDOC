@@ -16,7 +16,7 @@ test('creates workflow file at .github/workflows/autoreadme.yml', () => {
     const path = join(dir, '.github', 'workflows', 'autoreadme.yml')
     assert.ok(existsSync(path))
     const content = readFileSync(path, 'utf8')
-    assert.ok(content.includes('npx autoreadme generate'))
+    assert.ok(content.includes('npx @fairezlc/autoreadme generate'))
     assert.ok(content.includes('stefanzweifel/git-auto-commit-action'))
   } finally { rmSync(dir, { recursive: true }) }
 })

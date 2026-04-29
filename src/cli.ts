@@ -11,13 +11,20 @@ program
   .description('Generate and update README.md automatically from project metadata')
   .version('0.1.0')
 
+function handle(fn: () => void): void {
+  try {
+    fn()
+  } catch (err) {
+    console.error((err as Error).message)
+    process.exit(1)
+  }
+}
+
 program
   .command('detect')
   .description('Print detected project metadata as JSON')
   .option('-p, --path <path>', 'project root', '.')
-  .action((opts: { path: string }) => {
-    runDetect(opts.path)
-  })
+  .action((opts: { path: string }) => handle(() => runDetect(opts.path)))
 
 program
   .command('generate')
@@ -26,14 +33,9 @@ program
   .option('--dry-run', 'preview changes without writing', false)
   .option('--force', 'overwrite existing README without markers', false)
   .option('--backup', 'create README.md.bak before writing', false)
-  .action((opts: { path: string; dryRun: boolean; force: boolean; backup: boolean }) => {
-    runGenerate({
-      path: opts.path,
-      dryRun: opts.dryRun,
-      force: opts.force,
-      backup: opts.backup,
-    })
-  })
+  .action((opts: { path: string; dryRun: boolean; force: boolean; backup: boolean }) =>
+    handle(() => runGenerate({ path: opts.path, dryRun: opts.dryRun, force: opts.force, backup: opts.backup }))
+  )
 
 program
   .command('init')
@@ -41,12 +43,8 @@ program
   .option('-p, --path <path>', 'project root', '.')
   .option('--github-action', 'generate .github/workflows/autoreadme.yml', false)
   .option('--force', 'overwrite existing workflow', false)
-  .action((opts: { path: string; githubAction: boolean; force: boolean }) => {
-    runInit({
-      path: opts.path,
-      githubAction: opts.githubAction,
-      force: opts.force,
-    })
-  })
+  .action((opts: { path: string; githubAction: boolean; force: boolean }) =>
+    handle(() => runInit({ path: opts.path, githubAction: opts.githubAction, force: opts.force }))
+  )
 
 program.parse()

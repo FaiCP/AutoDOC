@@ -10,8 +10,7 @@ interface InitOptions {
 
 export function runInit(opts: InitOptions): void {
   if (!opts.githubAction) {
-    console.error('Specify --github-action to generate the workflow file.')
-    process.exit(1)
+    throw new Error('Specify --github-action to generate the workflow file.')
   }
 
   const root = resolve(opts.path)
@@ -19,9 +18,7 @@ export function runInit(opts: InitOptions): void {
   const workflowPath = join(workflowDir, 'autoreadme.yml')
 
   if (existsSync(workflowPath) && !opts.force) {
-    console.error(`Workflow already exists: ${workflowPath}`)
-    console.error('Use --force to overwrite.')
-    process.exit(1)
+    throw new Error(`Workflow already exists: ${workflowPath}\nUse --force to overwrite.`)
   }
 
   mkdirSync(workflowDir, { recursive: true })

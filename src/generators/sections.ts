@@ -1,4 +1,40 @@
 import type { ProjectMetadata } from '../types.js'
+import { parseGitHub, githubBadges, stackBadges, stackEmoji } from './badges.js'
+
+export function sectionHeader(meta: ProjectMetadata): string {
+  const emoji = stackEmoji(meta.stacks)
+  const lines: string[] = []
+
+  lines.push(`<p align="center">`)
+  lines.push(`  <h1>${emoji} ${meta.name}</h1>`)
+  lines.push(`</p>`)
+
+  if (meta.description) {
+    lines.push(``)
+    lines.push(`<p align="center">`)
+    lines.push(`  <strong>${meta.description}</strong>`)
+    lines.push(`</p>`)
+  }
+
+  const gh = meta.gitRemote ? parseGitHub(meta.gitRemote) : null
+  const ghBadges = gh ? githubBadges(gh, meta.license) : []
+  if (ghBadges.length > 0) {
+    lines.push(``)
+    lines.push(`<p align="center">`)
+    lines.push(`  ${ghBadges.join('\n  ')}`)
+    lines.push(`</p>`)
+  }
+
+  const sBadges = stackBadges(meta.stacks)
+  if (sBadges.length > 0) {
+    lines.push(``)
+    lines.push(`<p align="center">`)
+    lines.push(`  ${sBadges.join('\n  ')}`)
+    lines.push(`</p>`)
+  }
+
+  return lines.join('\n')
+}
 
 export function sectionOverview(meta: ProjectMetadata): string {
   if (!meta.description) return ''

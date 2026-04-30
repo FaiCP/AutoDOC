@@ -29,7 +29,8 @@ function tmp(files = {}) {
 // generateBlock tests
 test('generateBlock includes project name as h1', () => {
   const block = generateBlock({ ...BASE_META, name: 'cool-project' })
-  assert.ok(block.startsWith('# cool-project'))
+  assert.ok(block.includes('cool-project'))
+  assert.ok(block.includes('<h1>'))
 })
 
 test('generateBlock includes overview when description present', () => {
@@ -118,7 +119,8 @@ test('runGenerate creates README.md when none exists', () => {
     runGenerate({ path: dir, dryRun: false, force: false, backup: false })
     assert.ok(existsSync(join(dir, 'README.md')))
     const content = readFileSync(join(dir, 'README.md'), 'utf8')
-    assert.ok(content.includes('# test-app'))
+    assert.ok(content.includes('test-app'))
+    assert.ok(content.includes('<h1>'))
   } finally { rmSync(dir, { recursive: true }) }
 })
 
@@ -162,6 +164,7 @@ test('runGenerate preserves manual content outside markers', () => {
     runGenerate({ path: dir, dryRun: false, force: false, backup: false })
     const content = readFileSync(join(dir, 'README.md'), 'utf8')
     assert.ok(content.includes('Hand-written content.'))
-    assert.ok(content.includes('# test-app'))
+    assert.ok(content.includes('test-app'))
+    assert.ok(content.includes('<h1>'))
   } finally { rmSync(dir, { recursive: true }) }
 })

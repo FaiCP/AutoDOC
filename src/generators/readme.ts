@@ -1,5 +1,6 @@
 import type { ProjectMetadata } from '../types.js'
 import {
+  sectionHeader,
   sectionOverview,
   sectionStack,
   sectionRequirements,
@@ -19,9 +20,8 @@ const MARKER_START = '<!-- AUTOREADME:START -->'
 const MARKER_END = '<!-- AUTOREADME:END -->'
 
 export function generateBlock(meta: ProjectMetadata): string {
-  const title = `# ${meta.name}`
-
   const sections = [
+    sectionHeader(meta),
     sectionOverview(meta),
     sectionStack(meta),
     sectionRequirements(meta),
@@ -37,7 +37,7 @@ export function generateBlock(meta: ProjectMetadata): string {
     sectionLicense(meta),
   ].filter(Boolean)
 
-  return [title, ...sections].join('\n\n')
+  return sections.join('\n\n')
 }
 
 export function applyToReadme(

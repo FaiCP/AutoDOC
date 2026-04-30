@@ -1,6 +1,6 @@
 {
   "name": "@fairezlc/autoreadme",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "CLI that detects your project and generates a professional README.md",
   "type": "module",
   "bin": {
@@ -16,7 +16,13 @@
   "files": [
     "dist"
   ],
-  "keywords": ["readme", "documentation", "cli", "generator", "autoreadme"],
+  "keywords": [
+    "readme",
+    "documentation",
+    "cli",
+    "generator",
+    "autoreadme"
+  ],
   "license": "MIT",
   "engines": {
     "node": ">=18"

@@ -1,5 +1,21 @@
 <!-- AUTOREADME:START -->
-# @fairezlc/autoreadme
+<p align="center">
+  <h1>🟢 @fairezlc/autoreadme</h1>
+</p>
+
+<p align="center">
+  <strong>CLI that detects your project and generates a professional README.md</strong>
+</p>
+
+<p align="center">
+  <a href="https://github.com/FaiCP/AutoDOC/stargazers"><img src="https://img.shields.io/github/stars/FaiCP/AutoDOC?style=flat&color=yellow" alt="Stars" /></a>
+  <a href="https://github.com/FaiCP/AutoDOC/commits"><img src="https://img.shields.io/github/last-commit/FaiCP/AutoDOC?style=flat" alt="Last Commit" /></a>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Node.js-339933?logo=node.js&logoColor=white" alt="Node.js" />
+  <img src="https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white" alt="TypeScript" />
+</p>
 
 ## Overview
 
